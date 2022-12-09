@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Concrete;
 using BusinessLayer.ValidationRules;
+using DataAccessLayer.Concrete;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
 using FluentValidation.Results;
@@ -17,6 +18,7 @@ namespace MvcProjeKampi.Controllers
     {
         MessageManager mm = new MessageManager(new EFMessageDal());
         MessageValidator mv = new MessageValidator();
+        Context c = new Context();
      
         public ActionResult Index()
         {
@@ -24,7 +26,8 @@ namespace MvcProjeKampi.Controllers
         }
         public ActionResult Inbox()
         {
-            var values = mm.GetListInbox();
+            string p = (string)Session["WriterMail"];
+            var values = mm.GetListInbox(p);
             return View(values);
         }
         public PartialViewResult MessageListMenu()
@@ -33,7 +36,8 @@ namespace MvcProjeKampi.Controllers
         }
         public ActionResult Sendbox()
         {
-            var values = mm.GetListSendInbox();
+            string p = (string)Session["WriterMail"];
+            var values = mm.GetListSendInbox(p);
             return View(values);
         }
         public ActionResult GetInboxDetails(int id)
@@ -55,10 +59,11 @@ namespace MvcProjeKampi.Controllers
         [HttpPost]
         public ActionResult NewMessage(Message p)
         {
+            string sender = (string)Session["WriterMail"];
             ValidationResult results = mv.Validate(p);
             if (results.IsValid)
             {
-                p.SenderMail = "ezgi@gmail.com";
+                p.SenderMail = sender;
                 p.MessageDate = DateTime.Parse(DateTime.Now.ToShortDateString());
                 mm.MessageAdd(p);
                 return RedirectToAction("Sendbox");

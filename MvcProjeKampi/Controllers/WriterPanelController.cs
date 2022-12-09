@@ -8,6 +8,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
+using PagedList.Mvc;
 
 namespace MvcProjeKampi.Controllers
 {
@@ -26,7 +28,7 @@ namespace MvcProjeKampi.Controllers
             p = (string)Session["WriterMail"];
            var  writeridinfo = c.Writers.Where(x => x.WriterMail == p).Select(y => y.WriterID).FirstOrDefault();       
             var values = hm.GetListByWriter(writeridinfo);
-            return View();
+            return View(values);
         }
         [HttpGet]
         public ActionResult NewHeading()
@@ -82,6 +84,11 @@ namespace MvcProjeKampi.Controllers
             value.HeadingStatus = false;
             hm.HeadingDelete(value);
             return RedirectToAction("MyHeading");
+        }
+        public ActionResult AllHeading(int sayfa=1)
+        {
+            var headings = hm.GetList().ToPagedList(sayfa,4);
+            return View(headings);
         }
     }
 }
