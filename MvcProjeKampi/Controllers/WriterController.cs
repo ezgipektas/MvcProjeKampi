@@ -15,6 +15,7 @@ namespace MvcProjeKampi.Controllers
     {
         WriterManager wm = new WriterManager(new EfWriterDal());
         WriterValidator wvalidator = new WriterValidator();
+        
 
         public ActionResult Index()
         {
