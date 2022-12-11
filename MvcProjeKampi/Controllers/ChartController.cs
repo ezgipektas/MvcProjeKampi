@@ -21,40 +21,50 @@ namespace MvcProjeKampi.Controllers
         {
             return View();
         }
-        //public ActionResult CategoryChart()
-        //{
-        //    return Json(BlogList(),JsonRequestBehavior.AllowGet);
-        //}
-        //public List<CategoriesModel> BlogList()
-        //{
-        //    List<CategoriesModel> ct = new List<CategoriesModel>();
-        //    using (var c=new Context())
-        //    {
-        //        c.Categories.Select(new )
-        //    }
-        //    ct.Add(new CategoriesModel()
-        //    {
-        //        CategoryName =c.Categories.Add() ,
-        //        CategoryCount = 8
+        public ActionResult CategoryChart()
+        {
+            return Json(BlogList(), JsonRequestBehavior.AllowGet);
+            
+        }
+        public List<CategoriesModel> BlogList()
+        {
+            
+            List<CategoriesModel> ct = new List<CategoriesModel>();
+            using (var c = new Context())
+            {
 
+                ct=c.Categories.Select(x => new CategoriesModel()
+                {
+                    CategoryName = x.CategoryName,
+                    CategoryCount =(x.Headings.Count())
+                }).ToList();
+                return ct;             
+            }
+        }
+        public ActionResult Index2()
+        {
+            return View();
+        }
+        public ActionResult HeadingChart()
+        {
+            return Json(HeadingList(), JsonRequestBehavior.AllowGet);
 
-        //    });
-        //    ct.Add(new CategoriesModel()
-        //    {
-        //        CategoryName = "Seyahat",
-        //        CategoryCount = 4
-        //    });
-        //    ct.Add(new CategoriesModel()
-        //    {
-        //        CategoryName = "Teknoloji",
-        //        CategoryCount = 7
-        //    });
-        //    ct.Add(new CategoriesModel()
-        //    {
-        //        CategoryName = "Spor",
-        //        CategoryCount = 1
-        //    });
-        //    return ct;
-        //}
-    }
+        }
+        public List<HeadingsModel> HeadingList()
+        {
+
+            List<HeadingsModel> hm = new List<HeadingsModel>();
+            using (var c = new Context())
+            {
+
+                hm = c.Headings.Select(x => new HeadingsModel()
+                {
+                    HeadingName = x.HeadingName,
+                    HeadingCount = x.Contents.Count()
+                }).ToList();
+                return hm;
+            }
+        }
+    } 
 }
+    

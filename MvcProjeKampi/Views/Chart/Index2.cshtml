@@ -1,9 +1,8 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Index2";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +18,7 @@
                 type: "POST",
                 dataType: "json",
                 contentType: "application/json",
-                url: '@Url.Action("CategoryChart", "Chart")',
+                url: '@Url.Action("HeadingChart", "Chart")',
                 success: function (result) {
                     google.charts.load('current', {
                         'packages': ['corechart']
@@ -33,17 +32,17 @@
 
         function drawChart(result) {
             var data = new google.visualization.DataTable();
-            data.addColumn('string', 'CategoryName');
-            data.addColumn('number', 'CategoryCount');
+            data.addColumn('string', 'HeadingName');
+            data.addColumn('number', 'HeadingCount');
             var dataArray = [];
 
             $.each(result, function (i, obj) {
-                dataArray.push([obj.CategoryName, obj.CategoryCount]);
+                dataArray.push([obj.HeadingName, obj.HeadingCount]);
             });
             data.addRows(dataArray);
 
             var columnChartOptions = {
-                title: "Dinamik Kategori - Başlık Grafiği",
+                title: "Dinamik Başlık - İçerik Grafiği",
                 width: 1000,
                 height: 800,
                 bar: { groupWidth: "20%" },
